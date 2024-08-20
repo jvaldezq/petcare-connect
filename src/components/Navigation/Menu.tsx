@@ -12,7 +12,7 @@ export const Menu = () => {
                 <SheetHeader>
                     <SheetTitle>Edit profile</SheetTitle>
                     <SheetDescription>
-                        Make changes to your profile here. Click save when you're done.
+                        lorem ipsum dolor sit amet
                     </SheetDescription>
                 </SheetHeader>
                 <div className="grid gap-4 py-4">
