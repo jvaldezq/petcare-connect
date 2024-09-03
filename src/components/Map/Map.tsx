@@ -25,7 +25,7 @@ export const Map = () => {
         }
     }, []);
 
-    const onLoad = useCallback(function callback(map) {
+    const onLoad = useCallback(function callback(map: any) {
         setMap(map);
         if (currentPosition) {
             map.setCenter(currentPosition);
@@ -33,7 +33,7 @@ export const Map = () => {
         }
     }, [currentPosition]);
 
-    const onUnmount = useCallback(function callback(map) {
+    const onUnmount = useCallback(function callback(map: any) {
         setMap(null);
     }, []);
 
