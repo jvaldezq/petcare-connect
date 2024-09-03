@@ -6,7 +6,7 @@ export const MobileFilters = () => {
     return (<Drawer>
         <DrawerTrigger asChild className="col-span-full">
             <button
-                className="border-solid border border-primary/[0.3] text-primary/[0.7] rounded-2xl w-fit py-1 px-4">Filters
+                className="border-solid border border-primary/[0.3] text-primary/[0.7] rounded-2xl w-fit py-1 px-4 h-fit">Filters
             </button>
         </DrawerTrigger>
         <DrawerContent className="h-[90%]">
