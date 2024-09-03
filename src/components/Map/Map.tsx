@@ -2,12 +2,19 @@
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { GoogleMap, useJsApiLoader, Marker, InfoWindow } from '@react-google-maps/api';
+import {Vet} from "@/lib/definitions";
 
-export const Map = () => {
+interface MapProps {
+    vets: Vet[];
+}
+
+export const Map = (props: MapProps) => {
+    const { vets } = props;
     const { isLoaded } = useJsApiLoader({
         id: 'google-map-script',
         googleMapsApiKey: process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY || ''
     });
+    console.log('Map Data', vets);
 
     const [map, setMap] = useState(null);
     const [currentPosition, setCurrentPosition] = useState<any>(null);

@@ -1,0 +1,131 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url = env("POSTGRES_PRISMA_URL")
+  directUrl = env("POSTGRES_URL_NON_POOLING")
+}
+
+model Vet {
+  id               BigInt    @id @default(autoincrement())
+  name             String
+  email            String    @unique
+  phone            String
+  permissionNumber String
+  isAlwaysOpen     Boolean   @default(false)
+  locations        Location[]
+  schedules        Schedule[]
+  closedDates      ClosedDate[]
+  vetDoctors       VetDoctor[]
+  vetSpecialties   VetSpecialty[]
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+}
+
+model Location {
+  id            BigInt  @id @default(autoincrement())
+  vetId         BigInt
+  country       String
+  province      String
+  city          String
+  street        String
+  googleMapsUrl String?
+  latitude      Float?
+  longitude     Float?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+
+  vet           Vet     @relation(fields: [vetId], references: [id])
+}
+
+model Specialty {
+  id               BigInt    @id @default(autoincrement())
+  name             String
+  vetSpecialties   VetSpecialty[]
+  doctorSpecialties DoctorSpecialty[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Doctor {
+  id                 BigInt    @id @default(autoincrement())
+  name               String
+  identificationNumber String
+  uniqueDoctorId     String?   @unique
+  email              String?   @unique
+  phone              String?   @unique
+  vetDoctors         VetDoctor[]
+  doctorSpecialties  DoctorSpecialty[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+}
+
+model Schedule {
+  id            BigInt  @id @default(autoincrement())
+  vetId         BigInt
+  isClosed      Boolean @default(false)
+  isAlwaysOpen  Boolean @default(false)
+  sundayOpen    String?
+  sundayClose   String?
+  mondayOpen    String?
+  mondayClose   String?
+  tuesdayOpen   String?
+  tuesdayClose  String?
+  wednesdayOpen String?
+  wednesdayClose String?
+  thursdayOpen  String?
+  thursdayClose String?
+  fridayOpen    String?
+  fridayClose   String?
+  saturdayOpen  String?
+  saturdayClose String?
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  vet           Vet     @relation(fields: [vetId], references: [id])
+}
+
+model ClosedDate {
+  id        BigInt @id @default(autoincrement())
+  vetId     BigInt
+  closedDate DateTime
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  vet       Vet    @relation(fields: [vetId], references: [id])
+}
+
+model VetDoctor {
+  id        BigInt  @id @default(autoincrement())
+  vetId     BigInt
+  doctorId  BigInt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  vet       Vet     @relation(fields: [vetId], references: [id])
+  doctor    Doctor  @relation(fields: [doctorId], references: [id])
+}
+
+model VetSpecialty {
+  id         BigInt    @id @default(autoincrement())
+  vetId      BigInt
+  specialtyId BigInt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  vet        Vet       @relation(fields: [vetId], references: [id])
+  specialty  Specialty @relation(fields: [specialtyId], references: [id])
+}
+
+model DoctorSpecialty {
+  id          BigInt    @id @default(autoincrement())
+  doctorId    BigInt
+  specialtyId BigInt
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+
+  doctor      Doctor    @relation(fields: [doctorId], references: [id])
+  specialty   Specialty @relation(fields: [specialtyId], references: [id])
+}

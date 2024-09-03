@@ -3,7 +3,7 @@ import {Button, ButtonVariant} from "@/components/Shared/Button";
 import {useCallback, useState} from "react";
 import {useSearchParams, usePathname, useRouter} from "next/navigation";
 
-const PROVINCES = ['San José', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limón']
+const PROVINCES = ['San Jose', 'Alajuela', 'Cartago', 'Heredia', 'Guanacaste', 'Puntarenas', 'Limon']
 
 export const DesktopFilters = () => {
     const searchParams = useSearchParams();
@@ -24,7 +24,11 @@ export const DesktopFilters = () => {
         const data = JSON.stringify({
             provinces: selectedProvinces
         })
-        params.set('filters', btoa(data));
+        if (selectedProvinces.length === 0) {
+            params.delete('filters');
+        } else {
+            params.set('filters', btoa(data));
+        }
         replace(`${pathname}?${params.toString()}`);
     }, [pathname, replace, searchParams, selectedProvinces])
 

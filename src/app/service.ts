@@ -1,4 +1,5 @@
 import {Vet} from "@/lib/definitions";
+import {serverApi} from "@/lib/serverApi";
 
 interface FiltersProps {
     provinces: string[];
@@ -9,13 +10,10 @@ export const fetchVets = async (searchParams: {
 }): Promise<Vet[]> => {
     try {
         const params = searchParams.filters ? atob(searchParams.filters) : '{}';
-        const test = JSON.parse(params) as FiltersProps;
-
-        const vets = (test.provinces || []).map((province: string) => ({
-            id: 1
-        }));
-
-        return vets as Vet[];
+        const response = await serverApi({
+            method: 'GET', path: '/vets', params: JSON.parse(params)
+        });
+        return response as Vet[];
     } catch (error) {
         console.error("Error parsing filters:", error);
         return [];
