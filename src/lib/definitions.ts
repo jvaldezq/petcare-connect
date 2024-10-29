@@ -5,7 +5,7 @@ export interface Vet {
     phone: string,
     permissionNumber: string,
     isAlwaysOpen: boolean,
-    locations: Location[],
+    location: Location,
     schedules: Schedule[],
     closedDates: ClosedDate[],
     vetDoctors: VetDoctor[],
@@ -22,8 +22,8 @@ export interface Location {
     city: string,
     street: string,
     googleMapsUrl: string,
-    latitude: number,
-    longitude: number,
+    latitude: string,
+    longitude: string,
     createdAt: string,
     updatedAt: string
 }

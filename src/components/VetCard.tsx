@@ -3,9 +3,10 @@ import {LocationIcon} from "@/assets/icons/LocationIcon";
 import {WhatsappIcon} from "@/assets/icons/WhatsappIcon";
 import {useMemo} from "react";
 import {Vet} from "@/lib/definitions";
+import Link from "next/link";
 
 export const VetCard = (props: Vet) => {
-    const {name, phone, locations} = props;
+    const {name, phone, location, id} = props;
 
     const openOrClose = useMemo(() => {
         return <p className="absolute top-2 right-0 text-xs text-white bg-success py-1 px-2 rounded-l-lg font-semibold">Abierto</p>
@@ -27,19 +28,17 @@ export const VetCard = (props: Vet) => {
                 </h2>
             </div>
             <h2 className="text-sm flex gap-1 items-center">
-                {locations?.[0]?.province}, {locations?.[0]?.city}
+                {location?.province}, {location?.city}
             </h2>
             <div className="flex gap-4 flex-wrap justify-end mt-2">
-                <a target="_blank" href={locations?.[0]?.googleMapsUrl}
-                   className="flex gap-2 justify-center items-center border-solid border border-primary/[0.3] text-primary/[0.8] rounded-2xl w-fit py-1 px-4 cursor-pointer hover:border-secondary/[0.1] hover:bg-secondary/[0.08]">
-                    <LocationIcon/>
-                    Mapa
-                </a>
                 <a target="_blank" href={`https://api.whatsapp.com/send?phone=506${phone}&text=Petcare%20Connect.`}
                    className="flex gap-2 justify-center items-center border-solid border border-primary/[0.3] text-primary/[0.8] rounded-2xl w-fit py-1 px-4 cursor-pointer hover:border-secondary/[0.1] hover:bg-secondary/[0.08]">
                     <WhatsappIcon/>
                     Whatsapp
                 </a>
+                <Link key="how" href={`/${id}`} className="flex gap-2 justify-center items-center border-solid border border-primary/[0.3] text-primary/[0.8] rounded-2xl w-fit py-1 px-4 cursor-pointer hover:border-secondary/[0.1] hover:bg-secondary/[0.08]">
+                    Ver más
+                </Link>
             </div>
         </div>
         {openOrClose}

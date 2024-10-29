@@ -11,7 +11,7 @@ BigInt.prototype.toJSON = function () {
 
 export async function GET(request: Request) {
     const {searchParams} = new URL(request.url);
-    const provincesParam = searchParams.get('provinces');
+    const provincesParam = searchParams.get('userId');
     const citiesParam = searchParams.get('city');
 
     const provinces = provincesParam ? {
@@ -44,7 +44,13 @@ export async function GET(request: Request) {
                 }
             },
         });
-        return NextResponse.json(vets, {status: 200});
+
+        const vetsWithSingleLocation = vets.map(vet => ({
+            ...vet,
+            location: vet.locations[0] || null
+        }));
+
+        return NextResponse.json(vetsWithSingleLocation, {status: 200});
     } catch (error) {
         console.log('Error fetching vets', error);
         return NextResponse.json({error}, {status: 500});
